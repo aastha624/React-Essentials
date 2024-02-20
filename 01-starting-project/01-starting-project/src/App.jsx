@@ -1,9 +1,9 @@
-
 import { useState } from 'react';
 import { CORE_CONCEPTS } from "./assets/data.js";
 import Header from './components/Header/Header.jsx';
 import CoreConcept from "./components/CoreConcepts.jsx";
 import TabButton from "./components/TabButton.jsx";
+import { EXAMPLES} from "./assets/data.js";
 
 
 
@@ -13,7 +13,7 @@ import TabButton from "./components/TabButton.jsx";
 
 function App() {
 
-  const [selectedTopic, setSelectedTopic] = useState('Please click a button');
+  const [selectedTopic, setSelectedTopic] = useState();
 
   function handleSelect(selectedButton) {
     // selectedButton => 'components', 'jsx', 'props', 'state'
@@ -21,6 +21,21 @@ function App() {
     // console.log(selectedTopic);
   }
   console.log('APP COMPONENT EXECUTING');
+
+  let tabContent = <p>Please select a topic.</p>;
+
+  // here using another way ternary operater using state
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description}</p>
+        <pre>
+          <code>{EXAMPLES[selectedTopic].code}</code>
+        </pre>
+      </div>
+    );
+  }
   return (
     <div>
       <header>
@@ -31,7 +46,8 @@ function App() {
         <section id="core-concepts">
           <h2>Core Concepts</h2>
           <ul>
-            <CoreConcept
+            {CORE_CONCEPTS.map((conceptItem)=>(<CoreConcept key={conceptItem.title}{...conceptItem}/>))}
+            {/* <CoreConcept
               title={CORE_CONCEPTS[0].title}
               description={CORE_CONCEPTS[0].description}
               image={CORE_CONCEPTS[0].image} />
@@ -47,19 +63,47 @@ function App() {
             <CoreConcept
               title={CORE_CONCEPTS[3].title}
               description={CORE_CONCEPTS[3].description}
-              image={CORE_CONCEPTS[3].image} />
+              image={CORE_CONCEPTS[3].image} /> */}
           </ul>
         </section>
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton onSelect={() => handleSelect('components')} >Components</TabButton>
-            <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
-            <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
-            <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
+          <TabButton
+              isSelected={selectedTopic === 'components'}
+              onSelect={() => handleSelect('components')}
+            >
+              Components
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === 'jsx'}
+              onSelect={() => handleSelect('jsx')}
+            >
+              JSX
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === 'props'}
+              onSelect={() => handleSelect('props')}
+            >
+              Props
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === 'state'}
+              onSelect={() => handleSelect('state')}
+            >
+              State
+            </TabButton>
           </menu>
 
-          {selectedTopic}
+          {/* <div id="tab-content">
+            {/* here deriving and outputing data based on state ---use datajs file element import state here and te same che button ne so use use state array */}
+            {/* <h3>{EXAMPLES[selectedTopic].title}</h3> */}
+            {/* <p>{EXAMPLES[selectedTopic].description}</p> */}
+            {/* <pre> */}
+              {/* <code>{EXAMPLES[selectedTopic].code}</code> */}
+            {/* </pre> */}
+          {/* </div> */}
+          {tabContent}
         </section>
 
       </main>
@@ -69,5 +113,6 @@ function App() {
 
 export default App;
 // props-pass data into component and to then use that data in there
+
 
 
