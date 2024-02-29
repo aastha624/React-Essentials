@@ -10,14 +10,11 @@ import Examples from './components/Examples.jsx';
 // Header();---CREATE FIRST CUSTOM COMPONENT 
 
 
-
 function App() {
-
- 
   return (
   <>
       <header>
-        <h1>MADE BY AASTHA! </h1>
+        <h1></h1>
       </header>
        <main>
       <Header />
